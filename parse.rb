@@ -11,7 +11,7 @@ BAD_SCORE = -1
 @fails = []
 @csv = nil
 
-@output_csv = [] # canidate name, average networking score, average resume score, average case score, average
+@output_csv = [] # canidate name, average networking score, average resume score, average case score, recomennded score, actual score
 @key = {} # canidate_name -> [canidate csv index, networking_scores_averaged, resume_scores_averaged, case_scores_averaged]
 
 csv_path = "/Users/TheOwner/Downloads/AH\ Canidates.csv"
@@ -22,6 +22,7 @@ def run
   init_result_csv!
   parse_applications!
   translate_results!
+  create_reccomended_score!
   sort_results!
   add_headers!
   write_results!
@@ -47,9 +48,17 @@ def translate_results!
   end
 end
 
+def create_reccomended_score!
+  @row
+  @output_csv.each do |row|
+    @row = row
+    row[4] = ((row[1] + row[2] + row[3]).to_f / num_scores(row)).round(2)
+  end
+end
+
 def sort_results!
   @output_csv.sort! do |a,b|
-    difference = (a[1] + a[2] + a[3]) - (b[1] + b[2] + b[3])
+    difference = a[4] - b[4]
     if difference > 0
       -1
     elsif difference < 0
@@ -58,6 +67,14 @@ def sort_results!
       0
     end
   end
+end
+
+def num_scores(row)
+  num = 0
+  num += 1 if row[1] != 0
+  num += 1 if row[2] != 0
+  num += 1 if row[3] != 0
+  num
 end
 
 def read_csv!

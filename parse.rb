@@ -133,6 +133,7 @@ def which_event(row)
   when 'Thursday: Resume Workshop'
     RESUME
   when 'Friday: Sports Day'
+    NETWORKING
   when 'Saturday: Case Workshop'
     CASE
   else
